@@ -4,22 +4,31 @@
     
         {% block contenidoQueCambia %}        
         
-      
+        <div>
         <figure class="text-center">
             <blockquote class="blockquote">
               <p> Cargar Información de Clubes</p>
                     
 
-        <form action="/AppTickets/clubs/" method="post"> {% csrf_token %}
+            <form action="/AppTickets/clubs/" method="post" enctype="multipart/form-data"> {% csrf_token %}
             <table style="color: aliceblue;">
                 {{ miFormulario.as_table }}
             </table>
+            <p>**Fecha de Fundación en formato YYYY-MM-DD o no se realizará carga</p>
             <input type = "submit" value="Enviar">
-        </form>
-        </blockquote>  
+            </form>
+            </blockquote>  
         </figure>
+        </div>
         
-        {% endblock %}          
+
+
+        {% endblock %}
+        
+</div>        
+
+
+                
+                
     
         
-</div>

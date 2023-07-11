@@ -5,6 +5,12 @@ class CargaClub(forms.Form):
     nombreEstadio = forms.CharField(max_length=50)
     direccionEstadio = forms.CharField(max_length=50)
     capacidadEstadio = forms.IntegerField()
+    fechaFundacion = forms.DateField()
+    localidad = forms.CharField(max_length=50)
+    provincia = forms.CharField(max_length=50)
+    fotoEstadio = forms.ImageField()
+    historia = forms.CharField(widget=forms.Textarea)
+    
 
 class CargaSocio(forms.Form):
     nombre = forms.CharField(max_length=30)

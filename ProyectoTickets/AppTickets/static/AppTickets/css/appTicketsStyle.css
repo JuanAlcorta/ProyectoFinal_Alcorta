@@ -14,10 +14,18 @@ body {
     justify-content: center;
     align-items: center;
     color:white;
-    background-color:black;
-    background-size:cover;
+    background-color:black  ;
     font-weight:normal;
     
+}
+
+.detalleInfo{
+    color:white;
+    background-color:black ;
+    margin:15%;
+    margin-top: auto;
+    padding-top: 5%;
+    top: 10%;
 }
 
 

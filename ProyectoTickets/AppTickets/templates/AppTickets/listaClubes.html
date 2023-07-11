@@ -1,0 +1,40 @@
+
+    {% extends "AppTickets/inicio.html" %}
+    {% load static %}
+    <p> "Listado de Clubes"</p>   
+    {% block contenidoQueCambia %}   
+    <table>
+        <tr id="tituloListadoClubes">
+            <th>Club</th>
+            <th>Estadio</th>
+            <th></th>
+            <th>Más Info</th>
+            {% if user.is_superuser == user %}
+            <th>Editar</th>
+            <th>Eliminar</th>
+            {%endif%}
+            
+        </tr>
+        
+        {%for club in clubes%}
+        <tr>
+            <td style="color: white"> {{club.nombreClub}}</td>
+            <td style="color: white">{{club.nombreEstadio}}</td>
+            <!--<td style="color: black">{{club.direccionEstadio}}</td>
+            <td style="color: black">{{club.capacidadEstadio}}</td>
+            <td style="color: black">{{club.timestamp}}</td>
+            <td style="color: black">{{club.historia}}</td>-->
+            <td><img height= "200px" src=../../../media/{{club.fotoEstadio}}/></td>
+            <td style="color: white"><a href="/AppTickets/detalleClub/{{club.id}}">Más Info</a></td>
+            {% if user.is_superuser == user %}
+            <td><button class="btn btn-danger btnEliminar"><a href="{% url 'eliminarClub' club.id %}">X</a></button></td>
+            <td><button class="btn btn-warning btnEditar"><a href="{% url 'editarClub' club.id %}">Editar</a></button></td>
+            {%endif%}
+
+        </tr>             
+
+        {%endfor%}
+            
+    </table>
+    {%endblock%}
+

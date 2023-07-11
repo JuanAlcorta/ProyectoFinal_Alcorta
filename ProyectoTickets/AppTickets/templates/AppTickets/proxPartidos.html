@@ -1,0 +1,22 @@
+<div>
+    {% extends "AppTickets/inicio.html" %}
+    {% load static %}
+    
+        {% block contenidoQueCambia %}        
+        <table>
+            
+        {%for partido in partidos%}
+        <tr>
+            <td style="color: white"> {{partido.equipoLocal}}</td>
+            <td style="color: white">{{partido.equipoVisitante}}</td>
+            <td style="color: white">{{partido.fechaPartido}}</td>
+            <td style="color: white">{{partido.horarioPartido}}</td>
+        </tr>
+                
+        {%endfor%}
+            
+        </table>
+
+    
+        {% endblock %}
+</div>

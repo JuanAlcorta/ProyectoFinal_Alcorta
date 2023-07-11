@@ -11,7 +11,7 @@
     <title>Clubes Argentinos</title>
 </head>
 <body>
-    <!-- header -->
+
     <nav class="navbar navbar-expand-lg  fixed-top bg-dark navbar-dark" id="mainNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand navText" href="#page-top">AppTicket Home</a>
@@ -24,46 +24,35 @@
                     <li class="nav-item"><a class="nav-link navText" href="{% url 'Inicio' %}">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link navText" href="{% url 'Socios' %}">Socios</a></li>
                     <li class="nav-item"><a class="nav-link navText" href="{% url 'Clubs' %}">Cargar Club</a></li>
-                    {% if user.is_superuser == user %}
-                    <li class="nav-item"><a class="nav-link navText" href="{% url 'Partidos' %}">Partidos</a></li>
-                    {% endif %}
-                    <li class="nav-item"><a class="nav-link navText" href="{% url 'ProxPartidos' %}">Proximos Partidos</a></li>
-                    <li class="nav-item"><a class="nav-link navText" href="{% url 'listaClubes' %}">Listado de Clubes</a></li>
-                    <li class="nav-item"><a class="nav-link navText" href="{% url 'Logout' %}">Logout</a></li>
-                    <li style=" color: white">   Hola {{user.username}}</li>          
+                    <li class="nav-item"><a class="nav-link navText" href="{% url 'Partidos' %}">Partidos</a></li>      
+                    <li class="nav-item"><a class="nav-link navText" href="{% url 'listaClubes' %}">Listado de Clubes</a></li>         
                 </ul>
             </div>
         </div>
     </nav>
-
-    <div class="contenido">
-        {% block contenidoQueCambia %}
-        {% endblock %}
+ 
+    <div class="detalleInfo">    
+        <h3>Club</h3>
+        <p> {{club.nombreClub}}</p>
+        <h3>Estadio</h3>
+        <p>{{club.nombreEstadio}}</p>
+        <h3>Direccion</h3>
+        <p>{{club.direccionEstadio}}</p>
+        <h3>Ciudad</h3>
+        <p>{{club.localidad}}</p>
+        <h3>Provincia</h3>
+        <p>{{club.provincia}}</p>
+        <h3>Espectadores</h3>
+        <p>{{club.capacidadEstadio}}</p>
+        <h3>Fundacion</h3>
+        <p>{{club.fechaFundacion}}</p>
+        <h3>Historia del Club</h3>
+        <p>{{club.historia}}</p>
+        <p><img height= "300px" src=../../../media/{{club.fotoEstadio}}/></p>
+        <p>Ultima modificacion</p>
+        <p>{{club.timestamp}}</p>
     </div>
+ 
 
-    {% if user.is_superuser == user %}
-
-    <p style="color:aliceblue;">Buscar Socio</p>
-        <form action="/AppTickets/buscar/" method="GET">
-            <input placeholder="DNI" type="number" name="dni" id="dni">
-            <input type="submit" value="Buscar">
-        </form>
-
-        {% if socios %}
-            {% for socio in socios %}
-                <li style="color:aliceblue;"> {{socio.nombre}} </li>
-                <li style="color:aliceblue;"> {{socio.apellido}} </li>
-                <li style="color:aliceblue;"> {{socio.email}} </li>
-            {% endfor %}
-        
-        {% endif %}
-        <p style="color:red">{{respuesta}}</p>
-    
-    {%endif%}
-
-
-
-
-    <footer></footer>
 </body>
 </html>
