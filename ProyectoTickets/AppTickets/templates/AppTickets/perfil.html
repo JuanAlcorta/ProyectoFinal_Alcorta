@@ -1,0 +1,15 @@
+{% extends "AppTickets/inicio.html" %}
+{% load static %}
+
+{% block contenidoQueCambia %}
+    <div>
+        <ul>
+            <li>{{user.username}}</li>
+            <li>{{user.email}}</li>
+            <li>{{user.first_name}}</li>
+            <li>{{user.last_name}}</li>
+        </ul>
+        <a href="/AppTickets/edicionPerfil" class="btn btn-success" style="text-decoration: none; color: white;"> Editar Perfil</a>
+        <a href="/AppTickets/changeAvatar" class="btn btn-success" style="text-decoration: none; color: white;"> Avatar</a>
+    </div>
+{% endblock %}

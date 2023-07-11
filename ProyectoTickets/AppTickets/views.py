@@ -3,9 +3,10 @@ from django.http import HttpResponse
 from AppTickets.forms import *
 from AppTickets.models import *
 from datetime import datetime
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -172,3 +173,41 @@ def registroApp(request):
                 return render(request, 'AppTickets/registro.html',{'error': 'Revise los datos Requisitos: Your password cant be too similar to your other personal information. Your password must contain at least 8 characters. Your password cant be a commonly used password. Your password cant be entirely numeric. '})
     else:
         return render(request, 'AppTickets/registro.html')
+
+@login_required
+def perfil(request):
+    return render(request,'AppTickets/perfil.html')
+
+
+@login_required  
+def edicionPerfil(request):
+    usuario = request.user
+    user_basic_info = User.objects.get(id = usuario.id)
+    if request.method == "POST":
+        form = FormEdicionPerfil(request.POST, instance = usuario)
+        if form.is_valid():
+            user_basic_info.username = form.cleaned_data.get('username')
+            user_basic_info.email = form.cleaned_data.get('email')
+            user_basic_info.first_name = form.cleaned_data.get('first_name')
+            user_basic_info.last_name = form.cleaned_data.get('last_name')
+            user_basic_info.save()
+            return render(request, 'AppTickets/Perfil.html')
+    else:
+        form = FormEdicionPerfil(initial= {'username': usuario.username, 'email': usuario.email, 'first_name': usuario.first_name, 'last_name': usuario.last_name })
+        return render(request, 'AppTickets/edicionPerfil.html', {"form": form})
+
+@login_required
+def changePassword(request):
+    usuario = request.user    
+    if request.method == "POST":
+        form = ChangePasswordForm(data = request.POST, user = usuario)
+        if form.is_valid():
+            if request.POST['new_password1'] == request.POST['new_password2']:
+                user = form.save()
+                update_session_auth_hash(request, user)
+                return render(request, 'AppTickets/Perfil.html')
+        form = ChangePasswordForm(user = usuario)
+        return render(request, 'AppTickets/changePassword.html',{"form": form,'error':'Datos incorrectos'})
+    else:
+        form = ChangePasswordForm(user = usuario)
+        return render(request, 'AppTickets/changePassword.html', {"form": form})

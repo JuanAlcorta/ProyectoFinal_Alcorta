@@ -1,0 +1,16 @@
+{% extends "AppTickets/inicio.html" %}
+{% load static %}
+
+{% block contenidoQueCambia %}
+<h3>Quieres actualizar tus datos?</h3>
+<h6>{{user.username}}</h6>
+
+<form method="POST"> {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Actualizar Datos">
+</form>
+<a href="/AppTickets/changePassword">Cambiar contraseña</a>
+
+{%endblock%}

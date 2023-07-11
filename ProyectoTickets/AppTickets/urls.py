@@ -20,6 +20,9 @@ urlpatterns = [
     path('login/', loginApp, name="login"),
     path('registro/', registroApp, name="registro"),
     path('Logout/',LogoutView.as_view(template_name = 'AppTickets/logout.html'), name="Logout"),
+    path('perfil/', perfil, name="perfil"),
+    path('edicionPerfil/', edicionPerfil, name="edicionPerfil"),
+    path('changePassword/', changePassword, name="changePassword"),
     
 ]
 
