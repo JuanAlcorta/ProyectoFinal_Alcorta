@@ -22,9 +22,13 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link navText" href="{% url 'Inicio' %}">Inicio</a></li>
+                    {% if user.is_superuser == user %}
                     <li class="nav-item"><a class="nav-link navText" href="{% url 'Socios' %}">Socios</a></li>
+                    {% endif %}
                     <li class="nav-item"><a class="nav-link navText" href="{% url 'Clubs' %}">Cargar Club</a></li>
+                    {% if user.is_superuser == user %}
                     <li class="nav-item"><a class="nav-link navText" href="{% url 'Partidos' %}">Partidos</a></li>      
+                    {% endif %}
                     <li class="nav-item"><a class="nav-link navText" href="{% url 'listaClubes' %}">Listado de Clubes</a></li>         
                 </ul>
             </div>
@@ -49,7 +53,7 @@
         <h3>Historia del Club</h3>
         <p>{{club.historia}}</p>
         <p><img height= "300px" src=../../../media/{{club.fotoEstadio}}/></p>
-        <p>Ultima modificacion</p>
+        <p>Articulo creado: </p>
         <p>{{club.timestamp}}</p>
     </div>
  

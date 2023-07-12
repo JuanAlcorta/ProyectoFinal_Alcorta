@@ -26,7 +26,7 @@
             <td style="color: black">{{club.historia}}</td>-->
             <td><img height= "200px" src=../../../media/{{club.fotoEstadio}}/></td>
             <td style="color: white"><a href="/AppTickets/detalleClub/{{club.id}}">Más Info</a></td>
-            {% if user.is_superuser == user %}
+            {% if user.is_superuser %}
             <td><button class="btn btn-danger btnEliminar"><a href="{% url 'eliminarClub' club.id %}">X</a></button></td>
             <td><button class="btn btn-warning btnEditar"><a href="{% url 'editarClub' club.id %}">Editar</a></button></td>
             {%endif%}

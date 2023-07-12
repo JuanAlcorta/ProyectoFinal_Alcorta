@@ -12,7 +12,8 @@ from django.contrib.auth.models import User
 
 @login_required
 def inicio(request):
-    return render(request, "AppTickets/inicio.html")
+    avatar = getavatar(request)
+    return render(request, "AppTickets/inicio.html",{"avatar":avatar})
 
 @login_required
 def socios(request):
@@ -46,6 +47,7 @@ def partidos(request):
 
 @login_required
 def clubs(request):
+    avatar = getavatar(request)
     if request.method == 'POST':
         miFormulario = CargaClub(request.POST,request.FILES)
         print(miFormulario)
@@ -57,10 +59,10 @@ def clubs(request):
             except:
                 pass
             miFormulario=CargaClub()
-            return render(request,"AppTickets/clubs.html",{"miFormulario":miFormulario})
+            return render(request,"AppTickets/clubs.html",{"miFormulario":miFormulario,"avatar":avatar})
     else:
         miFormulario = CargaClub()
-    return render(request, "AppTickets/clubs.html",{"miFormulario":miFormulario})
+    return render(request, "AppTickets/clubs.html",{"miFormulario":miFormulario,"avatar":avatar})
 
 @login_required
 def buscarSocio(request):
@@ -79,18 +81,21 @@ def buscar(request):
 
 @login_required
 def leerPartidos(request):
+    avatar = getavatar(request)
     partidos = Partido.objects.all()
-    contexto = {"partidos":partidos}
+    contexto = {"partidos":partidos,"avatar":avatar}
     return render (request, "AppTickets/ProxPartidos.html",contexto)
 
 @login_required
 def listaClubes(request):
+    avatar = getavatar(request)
     clubes = Club.objects.all()
-    contexto = {"clubes":clubes}
+    contexto = {"clubes":clubes,"avatar":avatar}
     return render (request,"AppTickets/listaClubes.html",contexto)
 
 @login_required
 def detalleClub(request,id):
+    avatar = getavatar(request)
     club = Club.objects.filter(id=id)
     
     if club.exists():
@@ -99,20 +104,22 @@ def detalleClub(request,id):
 
     else:
         return HttpResponse("<h1>Pagina no existe </h1>")
-    contexto={"club":club}
+    contexto={"club":club,"avatar":avatar}
     print(contexto)
     return render (request, "AppTickets/detalleClub.html",contexto)
 
 @login_required
 def eliminarClub(request,id):
+    avatar = getavatar(request)
     club = Club.objects.get(id= id)
     club.delete()
     clubes = Club.objects.all()
-    contexto = {"clubes":clubes}
+    contexto = {"clubes":clubes,"avatar":avatar}
     return render(request,"AppTickets/listaClubes.html", contexto)
 
 @login_required
 def editarClub(request,id):
+    avatar = getavatar(request)
     club = Club.objects.get(id = id)
     
     if request.method == 'POST':
@@ -143,12 +150,12 @@ def editarClub(request,id):
             club.save()
             miFormulario = CargaClub()
             clubes = Club.objects.all()
-            contexto = {"clubes":clubes}
+            contexto = {"clubes":clubes,"avatar":avatar}
             return render(request,"AppTickets/listaClubes.html", contexto)
     else:
         miFormulario = CargaClub(initial={'nombreClub': club.nombreClub, 'nombreEstadio': club.nombreEstadio, 'direccionEstadio': club.direccionEstadio,'capacidadEstadio': club.capacidadEstadio,'fechaFundacion': club.fechaFundacion,'localidad': club.localidad,'provincia': club.provincia,'fotoEstadio': club.fotoEstadio,'historia': club.historia})
         print("paso3")
-        return render(request, "AppTickets/editarClub.html", {"miFormulario":miFormulario})
+        return render(request, "AppTickets/editarClub.html", {"miFormulario":miFormulario,"avatar":avatar})
 
 
 def loginApp(request):
@@ -176,11 +183,13 @@ def registroApp(request):
 
 @login_required
 def perfil(request):
-    return render(request,'AppTickets/perfil.html')
+    avatar = getavatar(request)
+    return render(request,'AppTickets/perfil.html',{"avatar":avatar})
 
 
 @login_required  
 def edicionPerfil(request):
+    avatar = getavatar(request)
     usuario = request.user
     user_basic_info = User.objects.get(id = usuario.id)
     if request.method == "POST":
@@ -191,13 +200,14 @@ def edicionPerfil(request):
             user_basic_info.first_name = form.cleaned_data.get('first_name')
             user_basic_info.last_name = form.cleaned_data.get('last_name')
             user_basic_info.save()
-            return render(request, 'AppTickets/Perfil.html')
+            return render(request, 'AppTickets/Perfil.html',{"avatar":avatar})
     else:
         form = FormEdicionPerfil(initial= {'username': usuario.username, 'email': usuario.email, 'first_name': usuario.first_name, 'last_name': usuario.last_name })
-        return render(request, 'AppTickets/edicionPerfil.html', {"form": form})
+        return render(request, 'AppTickets/edicionPerfil.html', {"form": form,"avatar":avatar})
 
 @login_required
 def changePassword(request):
+    avatar = getavatar(request)
     usuario = request.user    
     if request.method == "POST":
         form = ChangePasswordForm(data = request.POST, user = usuario)
@@ -205,9 +215,67 @@ def changePassword(request):
             if request.POST['new_password1'] == request.POST['new_password2']:
                 user = form.save()
                 update_session_auth_hash(request, user)
-                return render(request, 'AppTickets/Perfil.html')
+                return render(request, 'AppTickets/Perfil.html',{"avatar":avatar})
         form = ChangePasswordForm(user = usuario)
-        return render(request, 'AppTickets/changePassword.html',{"form": form,'error':'Datos incorrectos'})
+        return render(request, 'AppTickets/changePassword.html',{"form": form,'error':'Datos incorrectos',"avatar":avatar})
     else:
         form = ChangePasswordForm(user = usuario)
-        return render(request, 'AppTickets/changePassword.html', {"form": form})
+        return render(request, 'AppTickets/changePassword.html', {"form": form,"avatar":avatar})
+
+
+@login_required
+def editAvatar(request): 
+    if request.method == 'POST':
+        form = AvatarForm(request.POST, request.FILES)
+        print(form)
+        print(form.is_valid())
+        if form.is_valid():
+            user = User.objects.get(username = request.user)
+            avatar = Avatar(user = user, image = form.cleaned_data['avatar'], linkInfo = form.cleaned_data['linkInfo'] , descripcion = form.cleaned_data['descripcion'], id = request.user.id)
+            avatar.save()
+            avatar = Avatar.objects.filter(user = request.user.id)
+            
+            try:
+                avatar = avatar[0].image.url
+            except:
+                avatar = None           
+            return render(request, "AppTickets/inicio.html", {'avatar': avatar})
+        else:
+            user = User.objects.get(username = request.user)
+            avatarDummy = Avatar.objects.get(user = user)##obtener imagen actual cuando se quiere actualizar info sin cargar foto nueva
+            avatar = Avatar(user = user, image = avatarDummy.image, linkInfo = form.cleaned_data['linkInfo'] , descripcion = form.cleaned_data['descripcion'], id = request.user.id)
+            avatar.save()
+            avatar = Avatar.objects.filter(user = request.user.id)
+            try:
+                avatar = avatar[0].image.url
+            except:
+                avatar = None          
+            return render(request, "AppTickets/inicio.html", {'avatar': avatar})
+
+    else:
+        try:
+            print("si funcionó") ##test si entra al try
+            user = User.objects.get(username = request.user)
+            print(user) ##test si obtiene user
+            avatar = Avatar.objects.get(user = user)
+            print(avatar.descripcion) ##test si obtiene los objetos
+            
+            form = AvatarForm(initial= {'avatar':avatar.image,'linkInfo': avatar.linkInfo, 'descripcion': avatar.descripcion})
+        except:
+            print("no funcionó")
+            form = AvatarForm()
+        return render(request, "AppTickets/avatar.html", {'form': form})
+
+@login_required
+def getavatar(request):
+    avatar = Avatar.objects.filter(user = request.user.id)
+    try:
+        avatar = avatar[0].image.url
+    except:
+        avatar = None
+    return avatar
+
+@login_required
+def about(request):
+    avatar = getavatar(request)
+    return render(request, "AppTickets/about.html",{"avatar":avatar})

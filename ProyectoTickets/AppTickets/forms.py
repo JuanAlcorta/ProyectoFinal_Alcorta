@@ -46,4 +46,10 @@ class ChangePasswordForm(PasswordChangeForm):
         model = User
         fields = ['old_password', 'new_password1', 'new_password2']
         help_texts = {k:"" for k in fields}   
+
+
+class AvatarForm(forms.Form):
+    avatar = forms.ImageField()
+    linkInfo = forms.URLField(max_length=200)
+    descripcion = forms.CharField(widget=forms.Textarea)
     

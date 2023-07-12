@@ -7,3 +7,5 @@ admin.site.register(Socio)
 admin.site.register(Club)
 
 admin.site.register(Partido)
+
+admin.site.register(Avatar)
