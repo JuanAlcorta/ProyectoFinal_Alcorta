@@ -20,6 +20,8 @@ class Club(models.Model):
     capacidadEstadio = models.IntegerField(null=True)
     fotoEstadio = models.ImageField(upload_to='imagenesClubes', null=True, blank=True)
     historia = models.TextField(null=True)
+    #autorid = models.ForeignKey(User, on_delete=models.CASCADE,null = True, blank = True)
+    autorNombre = models.CharField(max_length=50,null = True, blank = True)
     timestamp = models.DateTimeField(auto_now_add=True, null=True)
         
     def __str__(self):

@@ -48,13 +48,21 @@ def partidos(request):
 @login_required
 def clubs(request):
     avatar = getavatar(request)
+    # usuario = request.user
+    # print(usuario)
+    # user_basic_info = User.objects.get(id = usuario.id)
+    # print(user_basic_info)
+    # print(user_basic_info.id)
+    # print(user_basic_info.username)
+    user = User.objects.get(username = request.user)
     if request.method == 'POST':
         miFormulario = CargaClub(request.POST,request.FILES)
         print(miFormulario)
         if miFormulario.is_valid:
             informacion = miFormulario.cleaned_data
             try:  ##try-except para evitar fallo al no respetar formato de fecha YYYY-MM-DD
-                club = Club(nombreClub=informacion["nombreClub"],nombreEstadio=informacion["nombreEstadio"],direccionEstadio=informacion["direccionEstadio"],capacidadEstadio=informacion["capacidadEstadio"],fechaFundacion=informacion["fechaFundacion"],localidad=informacion["localidad"],provincia=informacion["provincia"],fotoEstadio=informacion["fotoEstadio"],historia=informacion["historia"],timestamp=datetime.now())
+                club = Club(autorNombre = user.username, nombreClub=informacion["nombreClub"],nombreEstadio=informacion["nombreEstadio"],direccionEstadio=informacion["direccionEstadio"],capacidadEstadio=informacion["capacidadEstadio"],fechaFundacion=informacion["fechaFundacion"],localidad=informacion["localidad"],provincia=informacion["provincia"],fotoEstadio=informacion["fotoEstadio"],historia=informacion["historia"],timestamp=datetime.now())
+                print(club)
                 club.save()
             except:
                 pass
@@ -121,6 +129,8 @@ def eliminarClub(request,id):
 def editarClub(request,id):
     avatar = getavatar(request)
     club = Club.objects.get(id = id)
+    user = User.objects.get(username = request.user)
+    #user_basic_info = User.objects.get(id = usuario.id)
     
     if request.method == 'POST':
         miFormulario = CargaClub(request.POST,request.FILES)
@@ -136,6 +146,8 @@ def editarClub(request,id):
             club.nombreEstadio = data['nombreEstadio']
             club.direccionEstadio = data['direccionEstadio']
             club.capacidadEstadio = data['capacidadEstadio']
+            #club.autorid = user
+            club.autorNombre = user.username
             try: ##try-except para evitar fallo al no respetar formato de fecha YYYY-MM-DD
                 club.fechaFundacion = data['fechaFundacion']
             except:
@@ -184,6 +196,8 @@ def registroApp(request):
 @login_required
 def perfil(request):
     avatar = getavatar(request)
+
+
     return render(request,'AppTickets/perfil.html',{"avatar":avatar})
 
 
