@@ -5,13 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'AppTickets/css/bootstrap.min.css'%}" rel="stylesheet"/>
-    <link href="{% static 'AppTickets/css/appTicketsStyle.css'%}" rel="stylesheet"/>    
-    <script src="{% static 'AppTickets/js/bootstrap.min.js'%}"></script>
+    <link href="{% static 'AppChat/css/bootstrap.min.css'%}" rel="stylesheet"/>
+    <link href="{% static 'AppChat/css/appTicketsStyle.css'%}" rel="stylesheet"/>    
+    <script src="{% static 'AppChat/js/bootstrap.min.js'%}"></script>
     <title>Clubes Argentinos</title>
 </head>
 <body>
-    <!-- header -->
     <nav class="navbar navbar-expand-lg  fixed-top bg-dark navbar-dark" id="mainNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand navText" href="#page-top">Clubes Argentinos</a>
@@ -31,46 +30,36 @@
                     {% endif %}
                     <li class="nav-item"><a class="nav-link navText" href="{% url 'ProxPartidos' %}">Proximos Partidos</a></li>
                     <li class="nav-item"><a class="nav-link navText" href="{% url 'listaClubes' %}">Listado de Clubes</a></li>
-                    <li class="nav-item"><a class="nav-link navText" href="{% url 'chat_room' %}">Sala de Chat</a></li>
+                    <li class="nav-item"><a class="nav-link navText" href="{% url 'Logout' %}">Logout</a></li>
                     <li style=" color: white">   Hola {{user.username}}</li>
                     <li class="nav-item"><a class="nav-link navText" href=""><img src="{{avatar}}" height="50px" alt="perfil"></a></li>
                     <li class="nav-item"><a class="nav-link navText" href="{% url 'perfil' %}">Tu Info</a></li>
-                    <li class="nav-item"><a class="nav-link navText" href="{% url 'about' %}">Acerca de mi</a></li>
-                    <li class="nav-item"><a class="nav-link navText" href="{% url 'Logout' %}">Logout</a></li>             
+                    <li class="nav-item"><a class="nav-link navText" href="{% url 'about' %}">Acerca de mi</a></li>             
                 </ul>
             </div>
         </div>
     </nav>
- 
+    
+    <h1>Sala de Chat</h1>
 
     <div class="contenido">
-        {% block contenidoQueCambia %}
-        {% endblock %}
+        <h3>Comentarios:</h3>
+        <ul>
+            {% for mensaje in mensajes %}
+                <li>{{ mensaje.autorMensaje }} - {{ mensaje.timestamp }}: {{ mensaje.texto }}</li>
+            {% endfor %}
+        </ul>
     </div>
 
-    {% if user.is_superuser  %}
-
-    <p style="color:aliceblue;">Buscar Socio</p>
-        <form action="/AppTickets/buscar/" method="GET">
-            <input placeholder="DNI" type="number" name="dni" id="dni">
-            <input type="submit" value="Buscar">
+    <div class="contenido">
+        <h3>Agregar un comentario:</h3>
+        <form action="/AppChat/chat_room/" method="post"> {% csrf_token %}
+            <label for="autorMensaje">Autor:</label>
+            <input type="text" id="autorMensaje" name="autorMensaje" value="{{ request.user.username }}" required readonly><br>
+            <label for="texto">Comentario:</label>
+            <textarea id="texto" name="texto" required></textarea><br>
+            <input type="submit" value="Enviar">
         </form>
-
-        {% if socios %}
-            {% for socio in socios %}
-                <li style="color:aliceblue;"> {{socio.nombre}} </li>
-                <li style="color:aliceblue;"> {{socio.apellido}} </li>
-                <li style="color:aliceblue;"> {{socio.email}} </li>
-            {% endfor %}
-        
-        {% endif %}
-        <p style="color:red">{{respuesta}}</p>
-    
-    {%endif%}
-
-
-
-
-    <footer></footer>
+    </div>
 </body>
 </html>
