@@ -215,6 +215,7 @@ def edicionPerfil(request):
             user_basic_info.last_name = form.cleaned_data.get('last_name')
             user_basic_info.save()
             return render(request, 'AppTickets/Perfil.html',{"avatar":avatar})
+        return render(request, 'AppTickets/Perfil.html',{"avatar":avatar})
     else:
         form = FormEdicionPerfil(initial= {'username': usuario.username, 'email': usuario.email, 'first_name': usuario.first_name, 'last_name': usuario.last_name })
         return render(request, 'AppTickets/edicionPerfil.html', {"form": form,"avatar":avatar})

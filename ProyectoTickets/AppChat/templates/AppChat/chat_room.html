@@ -43,7 +43,7 @@
     <h1>Sala de Chat</h1>
 
     <div class="contenido">
-        <h3>Comentarios:</h3>
+        
         <ul>
             {% for mensaje in mensajes %}
                 <li>{{ mensaje.autorMensaje }} - {{ mensaje.timestamp }}: {{ mensaje.texto }}</li>
@@ -52,7 +52,7 @@
     </div>
 
     <div class="contenido">
-        <h3>Agregar un comentario:</h3>
+        <h6>Agregar un comentario:</h6>
         <form action="/AppChat/chat_room/" method="post"> {% csrf_token %}
             <label for="autorMensaje">Autor:</label>
             <input type="text" id="autorMensaje" name="autorMensaje" value="{{ request.user.username }}" required readonly><br>

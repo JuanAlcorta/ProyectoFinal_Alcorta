@@ -4,18 +4,18 @@
 {% block contenidoQueCambia %}
     <div>
         <ul>
-            <li>UserName</li>
-            <li>{{user.username}}</li>
-            <li>Correo</li>
-            <li>{{user.email}}</li>
-            <li>Nombre</li>
-            <li>{{user.first_name}}</li>
-            <li>Apellido</li>
-            <li>{{user.last_name}}</li>
+            <li>UserName:  {{user.username}} </li>
+            
+            <li>Correo:  {{user.email}}</li>
+            
+            <li>Nombre:  {{user.first_name}}</li>
+            
+            <li>Apellido:  {{user.last_name}}</li>
+            
 
 
         </ul>
-        <a href="/AppTickets/edicionPerfil" class="btn btn-success" style="text-decoration: none; color: white;"> Editar Perfil</a>
-        <a href="/AppTickets/avatar" class="btn btn-success" style="text-decoration: none; color: white;"> Ver & Editar Avatar e Info</a>
+        <a href="/AppTickets/edicionPerfil" class="btn btn-success" style="text-decoration: none; color: white;"> Editar Datos Usuario</a>
+        <a href="/AppTickets/avatar" class="btn btn-success" style="text-decoration: none; color: white;"> Ver & Editar Avatar e Info adicional</a>
     </div>
 {% endblock %}

@@ -2,8 +2,9 @@
 {% load static %}
 
 {% block contenidoQueCambia %}
-<h3>Aqui puedes actualizar tu info personal</h3>
-<h6>{{user.username}}</h6>
+<div class="edicionAvatar">
+<h5>Hola {{user.username}}</h5>
+<h6>Aqui puedes actualizar tu info personal</h6>
 
 <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
     <table>
@@ -11,6 +12,6 @@
     </table>
     <input type="submit" value="Actualizar Datos">
 </form>
-
+</div>
 
 {%endblock%}
