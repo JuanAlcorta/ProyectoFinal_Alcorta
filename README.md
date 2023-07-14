@@ -16,3 +16,5 @@ Próximos Partidos: Los usuarios pueden acceder a una sección dedicada a mostra
 Administrador: El administrador puede cargar datos de socios y buscarlos por DNI. También puede cargar información sobre los próximos partidos, que los usuarios normales pueden ver en la sección "Próximos Partidos".
 
 About: Sección dedicada a proporcionar una descripción del proyecto y del autor.
+
+Link con video descriptivo: https://www.youtube.com/watch?v=j8LdvzutxR8&ab_channel=JuanJos%C3%A9Alcorta
