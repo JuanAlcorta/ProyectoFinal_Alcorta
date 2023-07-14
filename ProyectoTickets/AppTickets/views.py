@@ -19,15 +19,21 @@ def inicio(request):
 def socios(request):
     if request.method == 'POST':
         miFormulario = CargaSocio(request.POST)
-        print(miFormulario)
-        if miFormulario.is_valid:
+        print(miFormulario.is_valid())
+        
+        if miFormulario.is_valid():
             informacion = miFormulario.cleaned_data
             socio = Socio(nombre=informacion["nombre"],apellido=informacion["apellido"],dni=informacion["dni"],email=informacion["email"])
             socio.save()
             miFormulario=CargaSocio()
             return render(request,"AppTickets/socios.html",{"miFormulario":miFormulario})
+        else:
+            miFormulario=CargaSocio()
+            error = "Datos con formato invalido"
+            return render(request,"AppTickets/socios.html",{"miFormulario":miFormulario,"error":error})
     else:
         miFormulario = CargaSocio()
+        return render(request, "AppTickets/socios.html",{"miFormulario":miFormulario})
     return render(request, "AppTickets/socios.html",{"miFormulario":miFormulario})
 
 @login_required
@@ -35,12 +41,14 @@ def partidos(request):
     if request.method == 'POST':
         miFormulario = CargaPartido(request.POST)
         print(miFormulario)
-        if miFormulario.is_valid:
+        if miFormulario.is_valid():
             informacion = miFormulario.cleaned_data
             partido = Partido(equipoLocal=informacion["equipoLocal"],equipoVisitante=informacion["equipoVisitante"],fechaPartido=informacion["fechaPartido"],horarioPartido=informacion["horarioPartido"])
             partido.save()
             miFormulario=CargaPartido()
             return render(request,"AppTickets/partidos.html",{"miFormulario":miFormulario})
+        else:
+            miFormulario = CargaPartido()
     else:
         miFormulario = CargaPartido()
     return render(request, "AppTickets/partidos.html",{"miFormulario":miFormulario})

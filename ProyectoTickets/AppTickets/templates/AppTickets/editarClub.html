@@ -5,7 +5,7 @@
     
     {% block contenidoQueCambia %}
     <form action="" method="post" enctype="multipart/form-data"> {% csrf_token %}
-        <table>
+        <table style="color: aliceblue;">
             {{ miFormulario.as_table }}
         </table>
         <input class="btn btn-primary" type="submit" value="Enviar">

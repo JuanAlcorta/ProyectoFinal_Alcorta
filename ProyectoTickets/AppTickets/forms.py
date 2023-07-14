@@ -31,6 +31,7 @@ class FormEdicionPerfil(UserChangeForm):
     email = forms.CharField(widget= forms.TextInput(attrs={"placeholder":"Email"}))
     first_name = forms.CharField(widget= forms.TextInput(attrs={"placeholder":"First Name"}))
     last_name = forms.CharField(widget= forms.TextInput(attrs={"placeholder":"Last Name"}))
+    password = None
 
     class Meta:
         model = User
